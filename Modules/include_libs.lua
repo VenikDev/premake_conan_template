@@ -35,3 +35,21 @@ function IncludePix()
 
     defines { "_PIX_USED" }
 end
+
+function IncludeAngelScript()
+    includedirs { _MAIN_SCRIPT_DIR .. "/Libraries/AngelScript/Include" }
+    libdirs { _MAIN_SCRIPT_DIR .. "/Libraries/AngelScript/Lib" }
+
+    filter "configurations:Debug"
+        links { "angelscript64d.lib" }
+
+    filter "configurations:Profile"
+        links { "angelscript64.lib" }
+
+    filter "configurations:Shipping"
+        links { "angelscript64.lib" }
+
+    filter {}
+
+    defines { "_ANGEL_SCRIPT_USED" }
+end

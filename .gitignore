@@ -43,6 +43,6 @@ Generated/*.vcxproj
 Conan/*
 !Conan/Profiles
 
-!Libraries/Pix/bin/**
+!Libraries/**
 
 !Vendor/**
