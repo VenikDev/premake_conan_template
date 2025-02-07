@@ -1,3 +1,7 @@
+-- include premake mosules
+require("Modules/fbuild")
+require("Modules/conan")
+
 Logger = require("Modules/logger")
 -- include conan
 include("Modules/include_libs")
@@ -10,6 +14,11 @@ Logger.info("_MAIN_SCRIPT = " .. _MAIN_SCRIPT)
 OUTPUT_DIR = "%{cfg.buildcfg}/%{cfg.system}/%{cfg.architecture}"
 PROJECT_DIR = _MAIN_SCRIPT_DIR .. "/Projects"
 BYNARY_DIR = _MAIN_SCRIPT_DIR .. "/Build/Bin/" .. OUTPUT_DIR
+
+local r = RunConan()
+if not r then
+    os.exit(1)
+end
 
 function SetTargetDir()
     targetdir(BYNARY_DIR .. "/%{prj.name}")

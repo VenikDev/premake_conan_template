@@ -15,6 +15,5 @@ project "start_premake"
     }
 
     IncludeFmt()
-    IncludeZlib()
 
     SetTargetDir()
