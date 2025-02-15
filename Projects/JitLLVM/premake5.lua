@@ -1,4 +1,4 @@
-project "jit_llvm"
+project "jit"
     kind "StaticLib"
     language "C++"
 

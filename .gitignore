@@ -36,8 +36,8 @@
 Build/Bin
 Build/Obj
 
-Generated/*.sln
-Generated/*.vcxproj
+*.sln
+*.vcxproj
 !Generated/.gitkeep
 
 Conan/*

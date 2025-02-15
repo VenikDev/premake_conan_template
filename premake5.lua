@@ -1,7 +1,6 @@
 Logger = require("Modules/logger")
 -- include conan
 include("Modules/include_libs")
-include("Modules/include_llvm")
 
 Logger.info("_PREMAKE_VERSION = " .. _PREMAKE_VERSION)
 Logger.info("_WORKING_DIR = " .. _WORKING_DIR)
@@ -19,7 +18,7 @@ end
 
 workspace "start_premake"
     -- We set the location of the files Premake will generate
-    location "Generated"
+    --location "Generated"
 
     -- We indicate that all the projects are C++ only
     language "C++"
@@ -37,16 +36,26 @@ workspace "start_premake"
     toolset "clang"
 
     filter "configurations:Debug"
-        defines { "_DEBUG" }
+        defines {
+            "_DEBUG",
+            "_ASSERTS_USED"
+        }
+
         symbols "On"
         optimize "Off"
+        rtti "On"
 
         IncludePix()
 
     filter "configurations:Profile"
-        defines { "_PROFILE" }
+        defines {
+            "_PROFILE",
+            "_ASSERTS_USED"
+        }
+
         symbols "On"
         optimize "Speed"
+        rtti "Off"
 
         IncludePix()
 
@@ -54,6 +63,14 @@ workspace "start_premake"
         defines { "_SHIPPING" }
         symbols "off"
         optimize "Speed"
+        rtti "Off"
+
+        buildoptions {
+            -- Polyhedral Optimizations
+            "-mllvm -polly",
+            -- Autovectorization
+            "-fvectorize"
+        }
 
     filter "platforms:Win64"
         defines { "_PLATFORM_WINDOW" }
