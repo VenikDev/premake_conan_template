@@ -11,6 +11,11 @@ OUTPUT_DIR = "%{cfg.buildcfg}/%{cfg.system}/%{cfg.architecture}"
 PROJECT_DIR = _MAIN_SCRIPT_DIR .. "/Projects"
 BYNARY_DIR = _MAIN_SCRIPT_DIR .. "/Build/Bin/" .. OUTPUT_DIR
 
+newoption {
+    trigger = "enable-tests",
+    description = "Generate a project for testing",
+}
+
 function SetTargetDir()
     targetdir(BYNARY_DIR .. "/%{prj.name}")
     objdir(BYNARY_DIR .. "/%{prj.name}")
@@ -103,11 +108,14 @@ workspace "start_premake"
 
     filter {}
 
-    flags { "FatalCompileWarnings" }
+    fatalwarnings { "All" }
 
+    include("Projects/Ds")
+    include("Projects/Math")
+    include("Projects/StartPremake")
 
-include("Projects/Ds")
-include("Projects/Math")
-include("Projects/StartPremake")
-include("Projects/Autotests")
-include("Projects/JitLLVM")
+    filter { "options:enable-tests" }
+        include("Projects/Autotests")
+    filter {}
+
+    include("Projects/JitLLVM")

@@ -6,7 +6,7 @@ if not exist "%PREMAKE_PATH%" (
     exit /b 1
 )
 
-"%PREMAKE_PATH%" vs2022
+"%PREMAKE_PATH%" vs2022 %*
 
 if %errorlevel% neq 0 (
     echo An error occurred when starting premake
