@@ -1,6 +1,7 @@
 Logger = require("Modules/logger")
 -- include conan
 include("Modules/include_libs")
+include("Modules/include_llvm")
 
 Logger.info("_PREMAKE_VERSION = " .. _PREMAKE_VERSION)
 Logger.info("_WORKING_DIR = " .. _WORKING_DIR)
@@ -65,3 +66,4 @@ include("Projects/Ds")
 include("Projects/Math")
 include("Projects/StartPremake")
 include("Projects/Autotests")
+include("Projects/JitLLVM")

@@ -1,20 +1,18 @@
-project "start_premake"
-    kind "ConsoleApp"
+project "jit_llvm"
+    kind "StaticLib"
     language "C++"
 
     files { "./**.h", "./**.cpp" }
 
     includedirs {
         PROJECT_DIR .. "/Ds",
-        PROJECT_DIR .. "/Math",
-        PROJECT_DIR .. "/JitLLVM",
     }
 
     dependson {
         "ds",
-        "jit_llvm"
     }
 
     IncludeFmt()
+    IncludeLLVM()
 
     SetTargetDir()
