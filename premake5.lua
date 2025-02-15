@@ -16,6 +16,48 @@ function SetTargetDir()
     objdir(BYNARY_DIR .. "/%{prj.name}")
 end
 
+function ConfigurationDebug()
+    defines {
+        "_DEBUG",
+        "_ASSERTS_USED"
+    }
+
+    symbols "On"
+    optimize "Off"
+    rtti "On"
+
+    IncludePix()
+end
+
+function ConfigurationProfile()
+    defines {
+        "_PROFILE",
+        "_ASSERTS_USED",
+    }
+
+    symbols "On"
+    optimize "Speed"
+    rtti "Off"
+
+    IncludePix()
+end
+
+function ConfigurationShipping()
+    defines { "_SHIPPING" }
+    symbols "off"
+    optimize "Speed"
+    rtti "Off"
+
+    buildoptions {
+        -- Polyhedral Optimizations
+        "-mllvm -polly",
+        -- Autovectorization
+        "-fvectorize"
+    }
+
+   sanitize {}
+end
+
 workspace "start_premake"
     -- We set the location of the files Premake will generate
     --location "Generated"
@@ -27,7 +69,7 @@ workspace "start_premake"
     -- Configurations are often used to store some compiler / linker settings together.
     -- The Debug configuration will be used by us while debugging.
     -- The optimized Release configuration will be used when shipping the app.
-    configurations { "Debug", "Profile", "Shipping" }
+    configurations { "Debug", "DebugSan", "Profile", "Shipping" }
 
     -- We will compile for x86_64. You can change this to x86 for 32 bit builds.
     architecture "x64"
@@ -36,47 +78,32 @@ workspace "start_premake"
     toolset "clang"
 
     filter "configurations:Debug"
+        ConfigurationDebug()
+
+    filter "configurations:Debug"
+        ConfigurationDebug()
+        sanitize { "Address", "Thread" }
+
         defines {
-            "_DEBUG",
-            "_ASSERTS_USED"
+            "_SANITAIZER_USED"
         }
-
-        symbols "On"
-        optimize "Off"
-        rtti "On"
-
-        IncludePix()
 
     filter "configurations:Profile"
-        defines {
-            "_PROFILE",
-            "_ASSERTS_USED"
-        }
-
-        symbols "On"
-        optimize "Speed"
-        rtti "Off"
-
-        IncludePix()
+        ConfigurationProfile()
 
     filter "configurations:Shipping"
-        defines { "_SHIPPING" }
-        symbols "off"
-        optimize "Speed"
-        rtti "Off"
-
-        buildoptions {
-            -- Polyhedral Optimizations
-            "-mllvm -polly",
-            -- Autovectorization
-            "-fvectorize"
-        }
+       ConfigurationShipping()
 
     filter "platforms:Win64"
         defines { "_PLATFORM_WINDOW" }
         staticruntime "on"
 
+    filter "toolset:not gcc and not clang"
+       removeconfigurations { "DebugSAN" }
+
     filter {}
+
+    flags { "FatalCompileWarnings" }
 
 
 include("Projects/Ds")
