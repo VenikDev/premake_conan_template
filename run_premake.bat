@@ -1,5 +1,5 @@
 @echo off
-set PREMAKE_PATH=Vendor\Premake\premake5.exe
+set PREMAKE_PATH=Tools\Premake\premake5.exe
 
 if not exist "%PREMAKE_PATH%" (
     echo %PREMAKE_PATH% file not found
