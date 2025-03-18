@@ -17,9 +17,6 @@ function SetTargetDir()
 end
 
 workspace "start_premake"
-    -- We set the location of the files Premake will generate
-    location "Generated"
-
     -- We indicate that all the projects are C++ only
     language "C++"
     cppdialect "C++20"
@@ -65,3 +62,5 @@ include("Projects/Ds")
 include("Projects/Math")
 include("Projects/StartPremake")
 include("Projects/Autotests")
+include("Projects/Logger")
+include("Projects/Benchmark")
