@@ -28,6 +28,12 @@ function IncludeGTest()
     IncludeLib("gtest")
 end
 
+function IncludeBenchmark()
+    IncludeLib("benchmark")
+
+    links { "benchmark.lib" }
+end
+
 function IncludePix()
     includedirs { _MAIN_SCRIPT_DIR .. "/Libraries/Pix/Include" }
     libdirs { _MAIN_SCRIPT_DIR .. "/Libraries/Pix/bin/x64" }
